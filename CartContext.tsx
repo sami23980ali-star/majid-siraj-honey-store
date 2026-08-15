@@ -1,0 +1,44 @@
+import type { CartLine, HoneyProduct } from "@shared/store";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+
+type CartContextValue = {
+  items: CartLine[];
+  count: number;
+  total: number;
+  addItem: (product: HoneyProduct, optionLabel: string, quantity: number) => void;
+  updateQuantity: (productId: number, optionLabel: string, quantity: number) => void;
+  removeItem: (productId: number, optionLabel: string) => void;
+  clear: () => void;
+};
+
+const CartContext = createContext<CartContextValue | null>(null);
+const cartKey = "majid-siraj-cart";
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [items, setItems] = useState<CartLine[]>(() => { try { return JSON.parse(localStorage.getItem(cartKey) || "[]") as CartLine[]; } catch { return []; } });
+  useEffect(() => { localStorage.setItem(cartKey, JSON.stringify(items)); }, [items]);
+  const value = useMemo<CartContextValue>(() => ({
+    items,
+    count: items.reduce((sum, item) => sum + item.quantity, 0),
+    total: items.reduce((sum, item) => sum + item.option.price * item.quantity, 0),
+    addItem(product, optionLabel, quantity) {
+      const option = product.priceOptions.find(item => item.label === optionLabel) ?? product.priceOptions[0];
+      if (!option) return;
+      setItems(current => {
+        const index = current.findIndex(item => item.productId === product.id && item.option.label === option.label);
+        if (index < 0) return [...current, { productId: product.id, name: product.name, image: product.primaryImage, option, quantity }];
+        return current.map((item, itemIndex) => itemIndex === index ? { ...item, quantity: Math.min(99, item.quantity + quantity) } : item);
+      });
+    },
+    updateQuantity(productId, optionLabel, quantity) { setItems(current => quantity < 1 ? current.filter(item => !(item.productId === productId && item.option.label === optionLabel)) : current.map(item => item.productId === productId && item.option.label === optionLabel ? { ...item, quantity: Math.min(99, quantity) } : item)); },
+    removeItem(productId, optionLabel) { setItems(current => current.filter(item => !(item.productId === productId && item.option.label === optionLabel))); },
+    clear() { setItems([]); },
+  }), [items]);
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (!context) throw new Error("يجب استخدام السلة داخل CartProvider");
+  return context;
+}
