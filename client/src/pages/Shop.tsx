@@ -1,0 +1,16 @@
+import { ProductCard } from "@/components/ProductCard";
+import { StoreShell } from "@/components/StoreShell";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
+import { trpc } from "@/lib/trpc";
+import { useMemo, useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+
+export default function Shop() {
+  const { data: products = [], isLoading } = trpc.catalog.list.useQuery();
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("الكل");
+  const [availability, setAvailability] = useState<"all" | "available">("all");
+  const categories = ["الكل", ...Array.from(new Set(products.map(product => product.category)))];
+  const visibleProducts = useMemo(() => products.filter(product => (category === "الكل" || product.category === category) && (availability === "all" || product.inventoryCount > 0) && `${product.name} ${product.shortDescription}`.includes(query.trim())), [products, category, availability, query]);
+  return <StoreShell><main className="container py-10 sm:py-14"><section className="rounded-[2rem] bg-[#4a2907] px-6 py-10 text-center text-[#f9e8c4] sm:px-10"><p className="text-xs font-bold text-[#f6cd70]">كتالوج ماجد سراج</p><h1 className="mt-2 font-display text-5xl text-white">جميع أنواع العسل البلدي</h1><p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#efd8a6]">اختر النوع والحجم الذي يناسبك، ثم أضفه إلى السلة لإرسال طلبك عبر واتساب.</p></section><div className="mt-8 grid gap-3 rounded-2xl border border-[#ead8b3] bg-white p-3 lg:grid-cols-[1fr_auto]"><label className="flex items-center gap-3 rounded-xl bg-[#fffaf0] px-4"><Search size={18} className="text-[#a45c08]" /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="ابحث عن نوع عسل…" className="h-11 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#a38a66]" /></label><div className="flex flex-wrap items-center gap-2 overflow-x-auto"><SlidersHorizontal size={17} className="shrink-0 text-[#a45c08]" />{categories.map(item => <button key={item} onClick={() => setCategory(item)} className={`shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition-colors ${category === item ? "bg-[#5e3508] text-[#f6cd70]" : "bg-[#f6ead3] text-[#76501f] hover:bg-[#eddaa9]"}`}>{item}</button>)}<button onClick={() => setAvailability(current => current === "all" ? "available" : "all")} className={`shrink-0 rounded-xl px-3 py-2 text-xs font-bold ${availability === "available" ? "bg-[#dff0d4] text-[#39701e]" : "bg-[#f6ead3] text-[#76501f]"}`}>{availability === "available" ? "المتوفر فقط" : "كل المنتجات"}</button></div></div>{isLoading ? <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{[1,2,3].map(item => <div key={item} className="h-96 animate-pulse rounded-3xl bg-[#f1e5cf]" />)}</div> : visibleProducts.length ? <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{visibleProducts.map(product => <ProductCard key={product.id} product={product} />)}</div> : <div className="mt-8 rounded-3xl border border-dashed border-[#d8bb82] bg-[#fffdf7] p-12 text-center"><p className="font-display text-3xl text-[#5e3508]">لم نجد منتجًا مطابقًا</p><p className="mt-2 text-sm text-[#806743]">جرّب كلمة بحث مختلفة أو غيّر فلتر التوفر.</p></div>}<RecentlyViewed products={products} /></main></StoreShell>;
+}
