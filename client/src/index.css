@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root { --background: #fffaf0; --foreground: #281806; --card: #ffffff; --card-foreground: #281806; --popover: #ffffff; --popover-foreground: #281806; --primary: #a76008; --primary-foreground: #fffaf0; --secondary: #f7e6c5; --secondary-foreground: #5e3508; --muted: #f6eddc; --muted-foreground: #806743; --accent: #f4d48a; --accent-foreground: #50300a; --destructive: #b42318; --border: #ead8b3; --input: #ead8b3; --ring: #b66d08; --radius: 1rem; }
+
+@theme inline { --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground); --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground); --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground); --color-destructive: var(--destructive); --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring); --radius-sm: calc(var(--radius) - 4px); --radius-md: calc(var(--radius) - 2px); --radius-lg: var(--radius); --radius-xl: calc(var(--radius) + 4px); --font-sans: "Alexandria", sans-serif; --font-display: "Amiri", serif; }
+
+* { border-color: var(--border); }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: var(--background); color: var(--foreground); font-family: "Alexandria", sans-serif; }
+button, input, textarea, select { font: inherit; }
+.container { width: 100%; margin-inline: auto; padding-inline: 1.25rem; }
+@media (min-width: 1024px) { .container { max-width: 1180px; padding-inline: 2rem; } }
+.font-display { font-family: "Amiri", serif; }
+.golden-grid { background-image: linear-gradient(rgba(246,205,112,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(246,205,112,.09) 1px, transparent 1px); background-size: 32px 32px; }
+.honey-glow { box-shadow: 0 28px 75px rgba(103, 58, 8, .22); }
+@media (prefers-reduced-motion: no-preference) { .rise-in { animation: rise-in .65s cubic-bezier(.23,1,.32,1) both; } @keyframes rise-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } } }
+
+@media (prefers-reduced-motion: no-preference) {
+  [aria-labelledby="reviews-title"] { animation: reviews-enter .65s cubic-bezier(.23,1,.32,1) both; animation-timeline: view(); animation-range: entry 8% cover 30%; }
+  [aria-labelledby="reviews-title"] article, [aria-labelledby="reviews-title"] aside { transition: transform 220ms cubic-bezier(.23,1,.32,1), box-shadow 220ms cubic-bezier(.23,1,.32,1), border-color 220ms ease; }
+  [aria-labelledby="reviews-title"] article:hover, [aria-labelledby="reviews-title"] aside:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(86,50,9,.10); border-color: #d7b56d; }
+  [aria-labelledby="reviews-title"] article:nth-child(2) { transition-delay: 45ms; }
+  [aria-labelledby="reviews-title"] article:nth-child(3) { transition-delay: 90ms; }
+  @keyframes reviews-enter { from { opacity: .2; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+}
