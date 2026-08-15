@@ -1,0 +1,76 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1786490691791,
+      "tag": "0000_tough_shinobi_shaw",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1786491315839,
+      "tag": "0001_ordinary_reptil",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1786493317877,
+      "tag": "0002_worthless_green_goblin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1786493450753,
+      "tag": "0003_woozy_silhouette",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1786497884201,
+      "tag": "0004_chief_jimmy_woo",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786502641739,
+      "tag": "0005_noisy_vance_astro",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1786508999257,
+      "tag": "0006_lying_famine",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1786536161638,
+      "tag": "0007_slippery_marrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1786658580366,
+      "tag": "0008_tough_dazzler",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1786737369080,
+      "tag": "0009_closed_tattoo",
+      "breakpoints": true
+    }
+  ]
+}

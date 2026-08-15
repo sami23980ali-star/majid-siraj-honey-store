@@ -1,0 +1,1 @@
+ALTER TABLE `products` ADD `galleryVideos` text DEFAULT ('[]') NOT NULL;
